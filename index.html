@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infográfico: Algoritmo do Sistema Amostral (Amostragem Estratificada)</title>
+    <!-- Tailwind CSS para estilização moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen antialiased selection:bg-indigo-500 selection:text-white pb-16">
+
+    <!-- Header Principal -->
+    <header class="max-w-6xl mx-auto px-6 pt-12 pb-8 text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-4">
+            📊 Amostragem Estratificada de Obras — Explicação Visual do Algoritmo
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
+            Algoritmo do <span class="gradient-text">Sistema Amostral</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
+            Como escolher poucas obras (a <strong>amostra</strong>) que representem um <strong>Lote</strong> inteiro? Siga o passo a passo dos dois caminhos do sistema: <span class="text-sky-400 font-medium">SEM regional</span> e <span class="text-purple-400 font-medium">COM regional</span>.
+        </p>
+    </header>
+
+    <!-- Container do Infográfico -->
+    <main class="max-w-6xl mx-auto px-4 md:px-6 space-y-12">
+
+        <!-- INTRODUÇÃO: O QUE O SISTEMA FAZ -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card 1: Objetivo -->
+            <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between">
+                <div>
+                    <div class="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">O Objetivo</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">
+                        Auditar <strong>todas</strong> as obras de um Lote é caro. O sistema seleciona uma <strong>amostra</strong> pequena, mas estatisticamente válida, que representa o Lote inteiro — junto com 2 amostras reserva.
+                    </p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-sky-400 font-medium">
+                    🎯 Menos obras, mesma representatividade
+                </div>
+            </div>
+
+            <!-- Card 2: A variável VR -->
+            <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between">
+                <div>
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">A Variável-Chave: o VR</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">
+                        Cada obra tem um <strong>VR</strong> (Valor de Referência / custo característico). O sistema agrupa obras com VR parecido em <strong>estratos</strong> (faixas), porque obras de valor parecido se comportam de forma parecida.
+                    </p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-purple-400 font-medium">
+                    📐 Estratos = faixas de VR
+                </div>
+            </div>
+
+            <!-- Card 3: Dois caminhos -->
+            <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between">
+                <div>
+                    <div class="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Dois Caminhos</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">
+                        O sistema calcula a amostra por <strong>dois métodos</strong>: <span class="text-sky-400">SEM regional</span> (o Lote inteiro de uma vez) e <span class="text-purple-400">COM regional</span> (separado por Grupo). Vence o que pedir <strong>menos obras</strong>.
+                    </p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-indigo-400 font-medium">
+                    ⚖️ SEM × COM → menor amostra
+                </div>
+            </div>
+        </section>
+
+        <!-- PASSO INTERATIVO: O CORAÇÃO — O SOM 1-D -->
+        <section class="bg-slate-900/40 border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6">
+            <div class="max-w-3xl">
+                <span class="px-2.5 py-1 text-xs font-semibold rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                    O CORAÇÃO DO MÉTODO: O SOM 1-D
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-3">
+                    Como o SOM forma os estratos a partir do VR
+                </h2>
+                <p class="text-sm text-slate-300 mt-2 leading-relaxed font-light">
+                    O passo que <strong>decide o estrato</strong> de cada obra é um <strong>SOM 1-D</strong> (Self-Organizing Map de uma dimensão). Ele recebe os VR das obras (ordenados do menor ao maior) e ajusta uma fila de marcadores até eles ficarem organizados — cada marcador "ocupa" uma faixa de VR. Essas faixas viram os <strong>estratos</strong> (Estrato 1 = VR mais baixo; Estrato N = VR mais alto). Brinque com a simulação abaixo.
+                </p>
+            </div>
+
+            <!-- Simulador 1D -->
+            <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800/60">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+
+                    <!-- Painel Esquerdo: Controles 1D -->
+                    <div class="md:col-span-4 space-y-4">
+                        <div class="space-y-1">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Métricas do Treino do SOM</h4>
+                            <div class="flex justify-between text-xs pt-1">
+                                <span>Iteração:</span>
+                                <span id="epoch-1d" class="font-mono text-amber-400">0 / 100</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span>VR sorteado:</span>
+                                <span id="current-age-sample" class="font-mono text-sky-400">—</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button id="btn-start-1d" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 px-4 rounded-xl text-xs transition-all duration-150 flex items-center justify-center gap-1">
+                                ▶️ Treinar o SOM
+                            </button>
+                            <button id="btn-reset-1d" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2.5 px-3 rounded-xl text-xs transition-all duration-150">
+                                Reiniciar
+                            </button>
+                        </div>
+
+                        <p class="text-[11px] text-slate-500 leading-relaxed font-light">
+                            <strong>O que está acontecendo?</strong> A IA sorteia o VR de uma obra ao acaso. O marcador com o valor mais próximo (o "vencedor", ou BMU) puxa seu valor um pouco para perto desse VR, arrastando junto seus vizinhos de fila. Repetindo isso, a fila se auto-organiza do VR mais baixo ao mais alto — e o sistema re-roda até nenhum estrato ficar vazio.
+                        </p>
+                        <p class="text-[11px] text-amber-400/80 leading-relaxed font-light border-t border-slate-800 pt-3">
+                            ℹ️ A demo usa 10 marcadores só para visualizar bem a auto-organização. No sistema real, o número de estratos N costuma ser <strong>4, 5 ou 6</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Painel Direito: Linha de Círculos 1D -->
+                    <div class="md:col-span-8 flex flex-col justify-center items-center space-y-6">
+                        <div class="text-xs text-slate-400 font-semibold">Fila de marcadores do SOM (cada um aprende uma faixa de VR)</div>
+
+                        <!-- Visualização da Fila -->
+                        <div class="w-full flex justify-between items-center bg-slate-900/50 p-4 rounded-xl border border-slate-800 gap-1.5 overflow-x-auto">
+                            <!-- Gerado por JS, círculos que mostram o VR que aprenderam -->
+                            <div id="nodes-1d-container" class="flex justify-between w-full min-w-[500px]"></div>
+                        </div>
+
+                        <!-- Legenda Visual -->
+                        <div class="flex justify-between w-full text-[10px] text-slate-500 px-2">
+                            <span>⬅️ VR mais baixo (Estrato 1)</span>
+                            <span>VR mais alto (Estrato N) ➡️</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: SEM REGIONAL -->
+        <section class="bg-slate-900/40 border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6">
+            <div class="max-w-3xl">
+                <span class="px-2.5 py-1 text-xs font-semibold rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                    MÉTODO 1: SEM REGIONAL
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-3">
+                    O Lote inteiro, de uma vez só
+                </h2>
+                <p class="text-sm text-slate-300 mt-2 leading-relaxed font-light">
+                    Aqui o sistema ignora os grupos e trata <strong>todas as obras do Lote juntas</strong> (a coluna "Regional" fica 0). Um único SOM divide o Lote em N estratos. É o caminho mais simples e que <strong>sempre roda</strong>.
+                </p>
+            </div>
+
+            <!-- Passos (numerados) -->
+            <div class="space-y-4">
+                <!-- Passo 1 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">1</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Estratificar com o SOM (criar os estratos)</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            Ordena as obras pelo VR e roda o <strong>SOM 1-D uma única vez sobre o Lote inteiro</strong>. É o SOM que <strong>cria</strong> os N estratos — cada obra recebe um rótulo de estrato (1..N). Re-roda até nenhum estrato ficar vazio.
+                        </p>
+                    </div>
+                </div>
+                <!-- Passo 2 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">2</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Medir cada estrato</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            Para cada estrato calcula <strong>Nh</strong> (quantas obras tem), a <strong>média do VR</strong> e o <strong>desvio-padrão Sh</strong>. São essas estatísticas que alimentam o cálculo do tamanho da amostra.
+                        </p>
+                    </div>
+                </div>
+                <!-- Passo 3 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">3</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Calcular o tamanho da amostra n e repartir (Neyman)</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            Com as estatísticas dos estratos, calcula o <strong>n</strong> total (a "régua", usando o erro de 5% urbano ou 9% rural e z=2). Em seguida, a <strong>alocação de Neyman</strong> reparte esse n entre os estratos → <strong>nh</strong> por estrato (estratos maiores e mais variáveis recebem mais). O n reportado é a soma dos nh.
+                        </p>
+                    </div>
+                </div>
+                <!-- Passo 4 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">4</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Limites de cada estrato (relatório)</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            Monta o relatório: para cada estrato, o <strong>limite inferior</strong> (menor VR) e <strong>superior</strong> (maior VR), além de %, total, média, desvio e o nh. É o retrato das faixas de VR.
+                        </p>
+                    </div>
+                </div>
+                <!-- Passo 5 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">5</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Sortear as obras (3 variações)</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            Dentro de cada estrato, distribui as obras por blocos e sorteia até atingir o nh daquele estrato (<strong>amostragem sistemática</strong>). Faz isso <strong>3 vezes</strong>: 1 amostra principal + 2 reservas, sem repetir obras quando há folga.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nota de correção -->
+            <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 text-xs text-amber-200/90 leading-relaxed font-light">
+                <strong class="text-amber-300">✔️ Ajuste fino do entendimento:</strong> o SOM não roda "em cada estrato" — ele roda <strong>uma vez sobre o Lote inteiro</strong> e é quem <strong>cria</strong> os estratos (passo 1). E o n não é calculado "em paralelo": ele vem das estatísticas dos estratos, e a <strong>alocação de Neyman</strong> é que decide o nh de cada estrato (passo 3). Os passos de limites (4) e de sorteio com 3 variações (5) você já tinha entendido certo. 👍
+            </div>
+        </section>
+
+        <!-- SEÇÃO: COM REGIONAL -->
+        <section class="bg-slate-900/40 border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6">
+            <div class="max-w-3xl">
+                <span class="px-2.5 py-1 text-xs font-semibold rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                    MÉTODO 2: COM REGIONAL
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-3">
+                    Um SOM separado dentro de cada Grupo
+                </h2>
+                <p class="text-sm text-slate-300 mt-2 leading-relaxed font-light">
+                    Igual ao SEM regional, mas primeiro o Lote é <strong>dividido pela coluna "Grupo"</strong>. O SOM roda <strong>separadamente dentro de cada grupo</strong>, gerando N estratos por grupo (ou seja, N × G estratos no total). O tamanho da amostra, porém, é calculado <strong>uma vez só, globalmente</strong>.
+                </p>
+            </div>
+
+            <!-- Passos (numerados) -->
+            <div class="space-y-4">
+                <!-- Passo 1 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">1</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Agrupar pela coluna "Grupo"</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            Separa as obras por grupo (a "regional"). Cada grupo será estratificado por conta própria, na ordem definida pelo legado.
+                        </p>
+                    </div>
+                </div>
+                <!-- Passo 2 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">2</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Rodar um SOM por grupo → N × G estratos</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            Dentro de cada grupo, ordena o VR e roda o SOM 1-D (com menos iterações que o SEM) até preencher os N estratos do grupo. Se um grupo tiver o VR <strong>concentrado demais</strong> para formar N faixas não-vazias, o sistema avisa <strong>"ZERO NO ESTRATO"</strong> e pula esse N.
+                        </p>
+                    </div>
+                </div>
+                <!-- Passo 3 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">3</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Juntar (pool) e calcular o n global</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            Junta as estatísticas (Nh, média, Sh) de <strong>todos</strong> os N × G estratos e calcula <strong>um único n</strong>, usando a população total do Lote — a mesma fórmula do SEM regional.
+                        </p>
+                    </div>
+                </div>
+                <!-- Passo 4 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">4</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Alocação de Neyman global + limites</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            A <strong>alocação de Neyman é global</strong>: reparte o n entre os N × G estratos de uma vez. O relatório sai com um bloco de linhas por grupo (coluna "Regional" = id do grupo) e os limites inferior/superior de cada estrato.
+                        </p>
+                    </div>
+                </div>
+                <!-- Passo 5 -->
+                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">5</div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white mb-1">Sortear as obras (3 variações)</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed font-light">
+                            Idêntico ao SEM regional, só que agora o sorteio sistemático acontece em cada um dos N × G estratos. Também gera 1 amostra principal + 2 reservas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nota diferença -->
+            <div class="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 text-xs text-purple-200/90 leading-relaxed font-light">
+                <strong class="text-purple-300">🔑 A diferença essencial:</strong> o SEM regional roda <strong>1 SOM no Lote inteiro</strong> (N estratos); o COM regional roda <strong>1 SOM por grupo</strong> (N × G estratos), mas com <strong>um único n e uma única alocação de Neyman globais</strong>, somando todos os estratos.
+            </div>
+        </section>
+
+        <!-- SEÇÃO: SEM × COM — QUAL VENCE -->
+        <section class="bg-gradient-to-r from-indigo-950/40 to-slate-900/40 border border-slate-800 rounded-3xl p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold mb-6 text-white text-center md:text-left">
+                SEM × COM regional: qual método o sistema escolhe?
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Regra 1 -->
+                <div class="flex gap-4 items-start">
+                    <div class="w-10 h-10 shrink-0 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">🏆</div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-1">Vence o menor n</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed font-light">
+                            Os dois métodos rodam e o sistema fica com o que pede <strong>menos obras</strong> (menor n reportado). Em caso de empate, vence o <strong>SEM regional</strong> (mais simples).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Regra 2 -->
+                <div class="flex gap-4 items-start">
+                    <div class="w-10 h-10 shrink-0 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold">🔁</div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-1">Varredura de N</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed font-light">
+                            O sistema testa vários números de estratos (ex.: <strong>N = 4, 5 e 6</strong>) e escolhe o N de menor amostra. Empate? Vence o <strong>menor N</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Regra 3 -->
+                <div class="flex gap-4 items-start">
+                    <div class="w-10 h-10 shrink-0 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">⚠️</div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-1">Quando o COM não dá</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed font-light">
+                            Se algum grupo tem o VR concentrado demais, o COM regional falha com <strong>"ZERO NO ESTRATO"</strong>. Nesse caso usa-se <strong>só o SEM regional</strong>, que é global e sempre roda.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto px-6 mt-12 pt-8 border-t border-slate-900 text-center text-xs text-slate-500">
+        <p>Desenvolvido para fins didáticos: explicação visual do algoritmo de amostragem estratificada (port em Python do sistema legado em R).</p>
+    </footer>
+
+    <!-- LÓGICA DO SIMULADOR (JAVASCRIPT) -->
+    <script>
+        /******************************************************************
+         * SIMULADOR 1D — O SOM organizando o VR das obras em faixas
+         * (mesma mecânica do SOM 1-D usado para criar os estratos)
+         ******************************************************************/
+        const totalNodes1D = 10;
+        const nodesContainer1D = document.getElementById('nodes-1d-container');
+
+        let weights1D = [];
+        let isTraining1D = false;
+        let epoch1D = 0;
+        const maxEpochs1D = 100;
+        let interval1D = null;
+
+        // Faixa simulada de VR das obras (valores fictícios para visualizar a auto-organização)
+        const VR_MIN = 18;
+        const VR_MAX = 80;
+        function getRandomVR() {
+            return Math.floor(Math.random() * (VR_MAX - VR_MIN + 1)) + VR_MIN;
+        }
+
+        function init1D() {
+            weights1D = [];
+            nodesContainer1D.innerHTML = '';
+
+            for (let i = 0; i < totalNodes1D; i++) {
+                // Inicializa com VR caóticos, sem ordem
+                const startVR = getRandomVR();
+                weights1D.push(startVR);
+
+                // Elemento visual
+                const nodeEl = document.createElement('div');
+                nodeEl.id = `node1d-${i}`;
+                nodeEl.className = 'w-10 h-10 rounded-full border border-slate-700 bg-slate-950 flex items-center justify-center text-xs font-mono font-bold text-slate-400 transition-all duration-100';
+                nodeEl.innerText = startVR;
+                nodesContainer1D.appendChild(nodeEl);
+            }
+
+            epoch1D = 0;
+            document.getElementById('epoch-1d').innerText = `0 / ${maxEpochs1D}`;
+            document.getElementById('current-age-sample').innerText = `—`;
+            setButton1DState(false);
+        }
+
+        function render1D(highlightIndex = -1) {
+            for (let i = 0; i < totalNodes1D; i++) {
+                const nodeEl = document.getElementById(`node1d-${i}`);
+                if (nodeEl) {
+                    const roundedVal = Math.round(weights1D[i]);
+                    nodeEl.innerText = roundedVal;
+
+                    // Colore do azul (VR baixo) ao vermelho (VR alto)
+                    const intensity = (roundedVal - VR_MIN) / (VR_MAX - VR_MIN); // 0 a 1
+                    const red = Math.round(intensity * 180 + 30);
+                    const blue = Math.round((1 - intensity) * 180 + 30);
+                    const green = Math.round(50);
+
+                    nodeEl.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+                    nodeEl.style.color = '#ffffff';
+
+                    if (i === highlightIndex) {
+                        nodeEl.className = 'w-11 h-11 rounded-full border-2 border-amber-400 flex items-center justify-center text-xs font-mono font-bold transition-all duration-100 scale-110 shadow-lg shadow-amber-500/20';
+                    } else {
+                        nodeEl.className = 'w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center text-xs font-mono font-bold transition-all duration-100';
+                    }
+                }
+            }
+        }
+
+        function step1D() {
+            if (epoch1D >= maxEpochs1D) {
+                stop1D(true);
+                return;
+            }
+
+            // 1. Sorteia o VR de uma obra
+            const sampleVR = getRandomVR();
+            document.getElementById('current-age-sample').innerText = `${sampleVR}`;
+
+            // 2. Acha a BMU (marcador vencedor) na fila 1D
+            let bmuIndex = 0;
+            let minDiff = Infinity;
+            for (let i = 0; i < totalNodes1D; i++) {
+                const diff = Math.abs(weights1D[i] - sampleVR);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    bmuIndex = i;
+                }
+            }
+
+            // 3. Parâmetros de vizinhança na linha 1D (raio e taxa de aprendizado decaem com o tempo)
+            const currentRadius = (totalNodes1D / 2) * Math.exp(-epoch1D / (maxEpochs1D / Math.log(totalNodes1D / 2)));
+            const currentLR = 0.5 * Math.exp(-epoch1D / maxEpochs1D);
+
+            // 4. Ajusta a BMU e seus vizinhos de fila em direção ao VR sorteado
+            for (let i = 0; i < totalNodes1D; i++) {
+                const distToBmu = Math.abs(i - bmuIndex);
+                if (distToBmu < currentRadius) {
+                    const influence = Math.exp(-Math.pow(distToBmu, 2) / (2 * Math.pow(currentRadius, 2)));
+                    weights1D[i] += influence * currentLR * (sampleVR - weights1D[i]);
+                }
+            }
+
+            epoch1D++;
+            document.getElementById('epoch-1d').innerText = `${epoch1D} / ${maxEpochs1D}`;
+            render1D(bmuIndex);
+        }
+
+        function setButton1DState(running) {
+            isTraining1D = running;
+            const btn = document.getElementById('btn-start-1d');
+            if (running) {
+                btn.innerText = '⏸️ Pausar';
+                btn.classList.replace('bg-amber-500', 'bg-rose-500');
+                btn.classList.replace('text-slate-950', 'text-white');
+            } else {
+                btn.innerText = '▶️ Treinar o SOM';
+                btn.classList.replace('bg-rose-500', 'bg-amber-500');
+                btn.classList.replace('text-white', 'text-slate-950');
+            }
+        }
+
+        function start1D() {
+            if (epoch1D >= maxEpochs1D) {
+                init1D();
+            }
+            isTraining1D = true;
+            setButton1DState(true);
+            interval1D = setInterval(step1D, 80); // Velocidade ideal para acompanhar
+        }
+
+        function stop1D(completed = false) {
+            isTraining1D = false;
+            clearInterval(interval1D);
+            setButton1DState(false);
+            if (completed) {
+                document.getElementById('current-age-sample').innerText = `Organizado!`;
+                render1D(-1); // limpa destaque do BMU
+            }
+        }
+
+        document.getElementById('btn-start-1d').addEventListener('click', () => {
+            if (isTraining1D) {
+                stop1D();
+            } else {
+                start1D();
+            }
+        });
+
+        document.getElementById('btn-reset-1d').addEventListener('click', () => {
+            stop1D();
+            init1D();
+            render1D();
+        });
+
+        // Inicialização
+        window.onload = function() {
+            init1D();
+            render1D();
+        };
+    </script>
+</body>
+</html>
