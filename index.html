@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infográfico: Algoritmo do Sistema Amostral (Amostragem Estratificada)</title>
+    <title>A caixa preta do Sistema Amostral revelado</title>
     <!-- Tailwind CSS para estilização moderna -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -27,7 +27,7 @@
             📊 Amostragem Estratificada de Obras — Explicação Visual do Algoritmo
         </div>
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-            Algoritmo do <span class="gradient-text">Sistema Amostral</span>
+            A <span class="gradient-text">caixa preta</span> do Sistema Amostral revelado
         </h1>
         <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
             Como escolher poucas obras (a <strong>amostra</strong>) que representem um <strong>Lote</strong> inteiro? Siga o passo a passo dos dois caminhos do sistema: <span class="text-sky-400 font-medium">SEM regional</span> e <span class="text-purple-400 font-medium">COM regional</span>.
@@ -101,10 +101,13 @@
                     O CORAÇÃO DO MÉTODO: O SOM 1-D
                 </span>
                 <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-3">
-                    Como o SOM forma os estratos a partir do VR
+                    O SOM: a ferramenta que lê a forma da distribuição
                 </h2>
                 <p class="text-sm text-slate-300 mt-2 leading-relaxed font-light">
-                    O passo que <strong>decide o estrato</strong> de cada obra é um <strong>SOM 1-D</strong> (Self-Organizing Map de uma dimensão). Ele recebe os VR das obras (ordenados do menor ao maior) e ajusta uma fila de marcadores até eles ficarem organizados — cada marcador "ocupa" uma faixa de VR. Essas faixas viram os <strong>estratos</strong> (Estrato 1 = VR mais baixo; Estrato N = VR mais alto). Brinque com a simulação abaixo.
+                    Pense no <strong>SOM 1-D</strong> como uma <strong>ferramenta de resumo dos dados</strong>, no mesmo espírito da média e da variância — só que com um papel diferente. A <strong>média</strong> resume o <em>centro</em> dos dados; a <strong>variância</strong> resume o <em>espalhamento</em> num único número; o <strong>SOM resume a <em>forma</em></strong> da distribuição do VR, dividindo a população em faixas homogêneas (os <strong>estratos</strong>). Ele recebe os VR ordenados e ajusta uma fila de marcadores até cada um "ocupar" uma faixa — colocando mais marcadores onde há mais obras (Estrato 1 = VR mais baixo; Estrato N = mais alto).
+                </p>
+                <p class="text-sm text-amber-200/90 mt-2 leading-relaxed font-light">
+                    ⚠️ <strong>Atenção:</strong> o SOM não é, ele mesmo, uma medida de espalhamento. Quem mede o espalhamento de cada estrato é o <strong>desvio-padrão (Sh)</strong> — e é esse número que entra na fórmula do tamanho da amostra. Brinque com a simulação abaixo.
                 </p>
             </div>
 
@@ -178,15 +181,15 @@
                 </p>
             </div>
 
-            <!-- Passos (numerados) -->
+            <!-- Passos (simplificados) -->
             <div class="space-y-4">
                 <!-- Passo 1 -->
                 <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
                     <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">1</div>
                     <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Estratificar com o SOM (criar os estratos)</h4>
+                        <h4 class="text-base font-semibold text-white mb-1">O SOM divide a população em estratos</h4>
                         <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            Ordena as obras pelo VR e roda o <strong>SOM 1-D uma única vez sobre o Lote inteiro</strong>. É o SOM que <strong>cria</strong> os N estratos — cada obra recebe um rótulo de estrato (1..N). Re-roda até nenhum estrato ficar vazio.
+                            Roda o SOM uma vez sobre o Lote inteiro (VR ordenado) e <strong>cria os estratos</strong> — as faixas de VR. Em seguida, mede o <strong>espalhamento de cada faixa</strong> (o desvio-padrão Sh).
                         </p>
                     </div>
                 </div>
@@ -194,9 +197,9 @@
                 <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
                     <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">2</div>
                     <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Medir cada estrato</h4>
+                        <h4 class="text-base font-semibold text-white mb-1">Calcula o tamanho da amostra (n) para o erro</h4>
                         <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            Para cada estrato calcula <strong>Nh</strong> (quantas obras tem), a <strong>média do VR</strong> e o <strong>desvio-padrão Sh</strong>. São essas estatísticas que alimentam o cálculo do tamanho da amostra.
+                            Usando o espalhamento dos estratos e o <strong>erro escolhido</strong> (5% urbano / 9% rural), calcula quantas obras bastam. A <strong>alocação de Neyman</strong> reparte esse n entre os estratos (o <strong>nh</strong> de cada um): estratos maiores e mais variáveis recebem mais.
                         </p>
                     </div>
                 </div>
@@ -204,29 +207,9 @@
                 <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
                     <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">3</div>
                     <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Calcular o tamanho da amostra n e repartir (Neyman)</h4>
+                        <h4 class="text-base font-semibold text-white mb-1">Distribui a amostra pelas ODIs — 3 vezes</h4>
                         <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            Com as estatísticas dos estratos, calcula o <strong>n</strong> total (a "régua", usando o erro de 5% urbano ou 9% rural e z=2). Em seguida, a <strong>alocação de Neyman</strong> reparte esse n entre os estratos → <strong>nh</strong> por estrato (estratos maiores e mais variáveis recebem mais). O n reportado é a soma dos nh.
-                        </p>
-                    </div>
-                </div>
-                <!-- Passo 4 -->
-                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
-                    <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">4</div>
-                    <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Limites de cada estrato (relatório)</h4>
-                        <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            Monta o relatório: para cada estrato, o <strong>limite inferior</strong> (menor VR) e <strong>superior</strong> (maior VR), além de %, total, média, desvio e o nh. É o retrato das faixas de VR.
-                        </p>
-                    </div>
-                </div>
-                <!-- Passo 5 -->
-                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
-                    <div class="shrink-0 w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl font-extrabold">5</div>
-                    <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Sortear as obras (3 variações)</h4>
-                        <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            Dentro de cada estrato, distribui as obras por blocos e sorteia até atingir o nh daquele estrato (<strong>amostragem sistemática</strong>). Faz isso <strong>3 vezes</strong>: 1 amostra principal + 2 reservas, sem repetir obras quando há folga.
+                            Em cada estrato, sorteia o <strong>nh</strong> de obras (amostragem sistemática). Repete <strong>3 vezes</strong>: 1 amostra principal + 2 reservas, sem repetir obras quando há folga.
                         </p>
                     </div>
                 </div>
@@ -234,7 +217,7 @@
 
             <!-- Nota de correção -->
             <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 text-xs text-amber-200/90 leading-relaxed font-light">
-                <strong class="text-amber-300">✔️ Ajuste fino do entendimento:</strong> o SOM não roda "em cada estrato" — ele roda <strong>uma vez sobre o Lote inteiro</strong> e é quem <strong>cria</strong> os estratos (passo 1). E o n não é calculado "em paralelo": ele vem das estatísticas dos estratos, e a <strong>alocação de Neyman</strong> é que decide o nh de cada estrato (passo 3). Os passos de limites (4) e de sorteio com 3 variações (5) você já tinha entendido certo. 👍
+                <strong class="text-amber-300">✔️ Ajuste do seu resumo:</strong> o SOM não "mostra o espalhamento" — ele <strong>cria os estratos</strong> (as faixas de VR); o espalhamento de cada estrato é medido pelo <strong>desvio-padrão</strong>, e é ele que alimenta o cálculo do n. E a distribuição segue o <strong>nh de cada estrato</strong> (alocação de Neyman), não "a quantidade de SOM". Os limites inferior/superior de cada estrato saem no relatório. 👍
             </div>
         </section>
 
@@ -252,15 +235,15 @@
                 </p>
             </div>
 
-            <!-- Passos (numerados) -->
+            <!-- Passos (simplificados) -->
             <div class="space-y-4">
                 <!-- Passo 1 -->
                 <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
                     <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">1</div>
                     <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Agrupar pela coluna "Grupo"</h4>
+                        <h4 class="text-base font-semibold text-white mb-1">O SOM divide cada grupo em estratos</h4>
                         <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            Separa as obras por grupo (a "regional"). Cada grupo será estratificado por conta própria, na ordem definida pelo legado.
+                            Separa o Lote pela coluna <strong>"Grupo"</strong> e roda o SOM <strong>dentro de cada grupo</strong>, criando as faixas de VR de cada um (no total, <strong>N × G estratos</strong>). Se um grupo tiver o VR concentrado demais, dá <strong>"ZERO NO ESTRATO"</strong>.
                         </p>
                     </div>
                 </div>
@@ -268,9 +251,9 @@
                 <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
                     <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">2</div>
                     <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Rodar um SOM por grupo → N × G estratos</h4>
+                        <h4 class="text-base font-semibold text-white mb-1">Calcula o tamanho da amostra (n) para o erro — globalmente</h4>
                         <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            Dentro de cada grupo, ordena o VR e roda o SOM 1-D (com menos iterações que o SEM) até preencher os N estratos do grupo. Se um grupo tiver o VR <strong>concentrado demais</strong> para formar N faixas não-vazias, o sistema avisa <strong>"ZERO NO ESTRATO"</strong> e pula esse N.
+                            Junta <strong>todos</strong> os N × G estratos e calcula <strong>um único n</strong> (sobre a população total) para o erro escolhido. A <strong>alocação de Neyman também é global</strong>, repartindo o n entre todos os estratos de uma vez.
                         </p>
                     </div>
                 </div>
@@ -278,29 +261,9 @@
                 <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
                     <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">3</div>
                     <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Juntar (pool) e calcular o n global</h4>
+                        <h4 class="text-base font-semibold text-white mb-1">Distribui a amostra pelas ODIs por regional — 3 vezes</h4>
                         <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            Junta as estatísticas (Nh, média, Sh) de <strong>todos</strong> os N × G estratos e calcula <strong>um único n</strong>, usando a população total do Lote — a mesma fórmula do SEM regional.
-                        </p>
-                    </div>
-                </div>
-                <!-- Passo 4 -->
-                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
-                    <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">4</div>
-                    <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Alocação de Neyman global + limites</h4>
-                        <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            A <strong>alocação de Neyman é global</strong>: reparte o n entre os N × G estratos de uma vez. O relatório sai com um bloco de linhas por grupo (coluna "Regional" = id do grupo) e os limites inferior/superior de cada estrato.
-                        </p>
-                    </div>
-                </div>
-                <!-- Passo 5 -->
-                <div class="flex gap-5 items-start bg-slate-900/40 border border-slate-800/80 p-5 rounded-xl">
-                    <div class="shrink-0 w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl font-extrabold">5</div>
-                    <div>
-                        <h4 class="text-base font-semibold text-white mb-1">Sortear as obras (3 variações)</h4>
-                        <p class="text-sm text-slate-400 leading-relaxed font-light">
-                            Idêntico ao SEM regional, só que agora o sorteio sistemático acontece em cada um dos N × G estratos. Também gera 1 amostra principal + 2 reservas.
+                            Em cada estrato de cada grupo, sorteia o <strong>nh</strong> de obras (amostragem sistemática). Como no SEM, repete <strong>3 vezes</strong>: 1 amostra principal + 2 reservas.
                         </p>
                     </div>
                 </div>
@@ -308,7 +271,42 @@
 
             <!-- Nota diferença -->
             <div class="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 text-xs text-purple-200/90 leading-relaxed font-light">
-                <strong class="text-purple-300">🔑 A diferença essencial:</strong> o SEM regional roda <strong>1 SOM no Lote inteiro</strong> (N estratos); o COM regional roda <strong>1 SOM por grupo</strong> (N × G estratos), mas com <strong>um único n e uma única alocação de Neyman globais</strong>, somando todos os estratos.
+                <strong class="text-purple-300">🔑 A diferença essencial:</strong> o SEM regional roda <strong>1 SOM no Lote inteiro</strong> (N estratos); o COM regional roda <strong>1 SOM por grupo</strong> (N × G estratos), mas o <strong>n e a alocação de Neyman continuam globais</strong> (somando todos os estratos), e não por grupo.
+            </div>
+        </section>
+
+        <!-- SEÇÃO: A MATEMÁTICA / FÓRMULA -->
+        <section class="bg-slate-900/40 border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6">
+            <div class="max-w-3xl">
+                <span class="px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    A MATEMÁTICA POR TRÁS
+                </span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-3">
+                    Qual método e qual fórmula calculam a amostra?
+                </h2>
+                <p class="text-sm text-slate-300 mt-2 leading-relaxed font-light">
+                    O método estatístico é a <strong>Amostragem Aleatória Estratificada</strong> (<em>stratified random sampling</em>). O número de obras de cada estrato segue a <strong>Alocação de Neyman</strong> (a alocação ótima, proposta por Jerzy Neyman em 1934): cada estrato recebe uma fatia proporcional a <strong>Nh · Sh</strong> (tamanho × espalhamento). Já o tamanho total da amostra usa a <strong>fórmula clássica de tamanho amostral para amostragem estratificada</strong> — cuja referência padrão é o livro <em>Sampling Techniques</em>, de <strong>William G. Cochran</strong>.
+                </p>
+            </div>
+
+            <div class="bg-slate-950 rounded-2xl border border-slate-800/60 p-6 space-y-4">
+                <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Fórmula do tamanho da amostra (n)</div>
+                <div class="overflow-x-auto">
+                    <div class="font-mono text-sm md:text-base text-slate-100 bg-slate-900/60 rounded-xl p-4 border border-slate-800 inline-block min-w-full">
+                        n = z² · (Σ Nh·Sh)² &nbsp;÷&nbsp; [ N²·E² + z² · (Σ Nh·Sh²) ]
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-xs text-slate-400 font-light pt-1">
+                    <div><span class="font-mono text-emerald-300">Nh</span> — nº de obras do estrato</div>
+                    <div><span class="font-mono text-emerald-300">Sh</span> — desvio-padrão do VR no estrato</div>
+                    <div><span class="font-mono text-emerald-300">N</span> — população total (todas as obras)</div>
+                    <div><span class="font-mono text-emerald-300">E</span> — margem de erro = média do VR × erro (5%/9%)</div>
+                    <div><span class="font-mono text-emerald-300">z</span> — fator de confiança (z = 2 ≈ 95%)</div>
+                    <div><span class="font-mono text-emerald-300">Σ</span> — soma sobre todos os estratos</div>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-relaxed font-light border-t border-slate-800 pt-3">
+                    A repartição por estrato (Neyman) é <span class="font-mono text-emerald-300">nh = n · (Nh·Sh) / Σ(Nh·Sh)</span>, com ajustes de mínimo por estrato. O <strong>n reportado</strong> pelo sistema é a soma dos nh.
+                </p>
             </div>
         </section>
 
